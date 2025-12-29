@@ -4,25 +4,25 @@ Formerly SE Clipboard Fix
 
 ## Notes about template modifications
 
-* I converted the csproj files to the new SDK-style csproj, so you can build it with the new .NET SDK
-* I removed the dedicated and torch plugins, because they are not needed
+- I converted the csproj files to the new SDK-style csproj, so you can build it with the new .NET SDK
+- I removed the dedicated and torch plugins, because they are not needed
 
 Find my upgraded template here: [opekope2/PluginTemplate](https://github.com/opekope2/PluginTemplate)
 
 ## How to build (Windows) (not tested)
 
-* Install [.NET SDK](https://get.dot.net)
-* Open `Setup-links.bat` and edit SE Bin64 path
-* Run `Setup-links.bat`
-* To build from command line, run `dotnet build`
+- Install [.NET SDK](https://get.dot.net)
+- Open `Setup-links.bat` and edit SE Bin64 path
+- Run `Setup-links.bat`
+- To build from command line, run `dotnet build`
 
 (Your IDE should be able to build the solution)
 
 ## How to build (GNU+Linux)
 
-* Install [.NET SDK](https://get.dot.net)
-* Symlink SE's Bin64 folder to project root (`ln -s /path/to/SteamLibrary/steamapps/common/SpaceEngineers/Bin64 Bin64`)
-* Run `dotnet build`
+- Install [.NET SDK](https://get.dot.net)
+- Symlink SE's Bin64 folder to project root (`ln -s /path/to/SteamLibrary/steamapps/common/SpaceEngineers/Bin64 Bin64`)
+- Run `dotnet build`
 
 ## How to install
 
@@ -30,6 +30,14 @@ Find my upgraded template here: [opekope2/PluginTemplate](https://github.com/ope
 2. Inable `CosmicWineFixes` in the Plugins menu
 3. Restart the game when prompted
 4. Configure fixes/modifications from Plugins menu
+
+## How to install (NixOS)
+
+1. Run `nix run github:anders130/CosmicWineFixes -- path/to/steam/library`
+2. Modify the game's launch options to start with the launcher: `bash -c 'exec "${@/%SpaceEngineers.exe/SpaceEngineersLauncher.exe}"' -- %command%`
+3. Start the game
+4. Open Plugins menu and enable `CosmicWineFixes`
+5. Restart the game when prompted
 
 ## The clipboard issue
 
