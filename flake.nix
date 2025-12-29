@@ -24,23 +24,26 @@
                         #!/usr/bin/env bash
                         set -euo pipefail
 
-                        # --- Cleanup function to be called automatically on script exit ---
-                        cleanup() {
-                            echo "Cleaning up temporary files and symlinks..."
-                            rm -f Bin64
-                            rm -f SpaceEngineersLauncher.exe
-                            rm -f nlog.nupkg
-                            rm -rf nlog_temp
-                        }
-                        trap cleanup EXIT
-
                         # --- Argument and Path Validation ---
                         if [ -z "''${1-}" ]; then
                             echo "ERROR: You must provide the path to your Steam library directory." >&2
                             echo "Usage: $0 /path/to/your/steam/library" >&2
                             exit 1
                         fi
-                        STEAM_PATH="$1"
+                        STEAM_PATH=$(realpath "$1")
+
+                        # --- Create a temporary directory and cd into it ---
+                        TMP_DIR=$(mktemp -d)
+                        export TMP_DIR
+                        cd "$TMP_DIR"
+
+                        # --- Cleanup function to be called automatically on script exit ---
+                        cleanup() {
+                            echo "Cleaning up temporary files..."
+                            rm -rf "$TMP_DIR"
+                        }
+                        trap cleanup EXIT
+
                         SE_BIN64_PATH="$STEAM_PATH/steamapps/common/SpaceEngineers/Bin64"
 
                         if [ ! -d "$SE_BIN64_PATH" ]; then
@@ -49,6 +52,9 @@
                         fi
 
                         # --- Main Build Logic ---
+                        echo "Copying source to temporary directory..."
+                        cp -r ${inputs.self}/. .
+                        chmod -R u+w .
 
                         # 1. Create Symlink for the build process
                         echo "1. Creating symlink for build..."
